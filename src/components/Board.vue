@@ -2,13 +2,14 @@
   <div>
     <header>my Trello</header>
     <main>
-      <p class="info-line">All: 0 tasks</p>
+      <p class="info-line">All: {{ totalCardCount }} tasks</p>
       <div class="list-index">
         <list
           v-for="(item , index) in lists"
           :key="item.id"
           :title="item.title"
           :listIndex="index"
+          :cards="item.cards"
         />
         <list-add />
       </div>
@@ -26,14 +27,14 @@ export default {
     List
   },
   computed: {
-    ...mapState(["lists"])
+    ...mapState(["lists"]),
     // stateの値が変わるごとに算出される
     //mapStateをすることでstoreにあるlistsを呼び出せるようにしている
     // このようにオブジェクトスプレッド演算子（...の部分です）を使っているのは、computedのローカルのオブジェクトと一緒に定義できるようにするためです。
     //そもそも、computedにはオブジェクトを渡さないといけないルールがあります。 mapStateはこのオブジェクトスプレッド演算子を使わないと、オブジェクトを持ったオブジェクト（ネストされた状態）を返してしまい、computedはmapStateに定義された値を参照できないのです。
+    totalCardCount() {
+      return this.$store.getters.totalCardCount
+    }
   }
 };
 </script>
-
-<style>
-</style>
